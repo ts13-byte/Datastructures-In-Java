@@ -1,5 +1,8 @@
 package com.datastructureandalgorithm;
-class Node{
+
+import java.util.Scanner;
+
+ class Node{
         int data;
         Node next;
 
@@ -51,32 +54,64 @@ class Node{
             }
             else{
                 Node current=head;
-                Node previous=null;
-                while(current!=null && current.data!=data){
-                    previous=current;
+                while(current.next!=null && current.next.data!=data){
                     current=current.next;
                 }
-                if(current!=null){
-                    previous.next=current.next;
-                }else{
-                    System.out.println("Node could not be found!!");
-                }
+                current.next=current.next.next;
             }
-
         }
 
+        public void reverse(){
+            Node current=head;
+            Node nextNode=head;
+            Node prev=null;
+            while(current!=null)
+            {
+                nextNode=current.next;
+                current.next=prev;
+                prev=current;
+                current=nextNode;
+            }
+            head=prev;
+        }
 
-
+        public void deleteAtAPos(int pos){
+            if(pos==1){
+                head=head.next;
+            }else {
+                Node current = head;
+                for (int i = 1; i < pos - 1; i++) {
+                    current = current.next;
+                }
+                current.next=current.next.next;
+            }
+        }
         public static void main(String[] args) {
-            LinkedListImpl linkedList=new LinkedListImpl();
-            linkedList.insertNewNode(1);
-            linkedList.insertNewNode(2);
-            linkedList.insertNewNode(3);
-            linkedList.insertNewNode(4);
-            linkedList.delete(3);
-            linkedList.delete(1);
-            linkedList.delete(2);
-            linkedList.delete(4);
+          Scanner scanner=new Scanner(System.in);
+          LinkedListImpl linkedList=new LinkedListImpl();
+
+//          while(true){
+//              System.out.println("enter an integer or press \"exit\" to exit: ");
+//              String input=scanner.nextLine();
+//              if(input.equalsIgnoreCase("exit")){
+//                  break;
+//              }
+//              int number=Integer.parseInt(input);
+//              linkedList.insertNewNode(number);
+//          }
+
+            while(true){
+                System.out.println("enter an integer or type -1 to exit");
+                int input= scanner.nextInt();
+                if(input==-1){
+                    break;
+                }
+                linkedList.insertNewNode(input);
+
+            }
+            scanner.close();
+            linkedList.display();
+            linkedList.deleteAtAPos(1);
             linkedList.display();
 
         }
